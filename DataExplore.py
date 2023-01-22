@@ -30,7 +30,7 @@ lim = max(
 plt.xlim(-lim, lim)
 plt.ylim(-lim, lim)
 
-labels = top_50["Company"]
+labels = top_50["Company"].iloc[::-1] # have to reverse to get the order right 
 
 for circle, label in zip(circles, labels):
     x, y, r = circle
