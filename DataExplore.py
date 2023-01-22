@@ -30,24 +30,23 @@ lim = max(
 plt.xlim(-lim, lim)
 plt.ylim(-lim, lim)
 
-labels = top_50["Company"]
 
-for (circle, label) in zip(circles, labels):
-    x, y, r = circle
-    ax.add_patch(plt.Circle((x,y), r, alpha=0.2, linewidth=2, fill=False))
-    plt.annotate(
-          label, 
-          (x,y ) ,
-          va='center',
-          ha='center'
-        )
+data = pd.read_json("/Users/neiljoegeorge/Documents/ConU/Layoffsfyi_Tracker_layoffsfyitracker.2023-1-21.json")    
 
+print(data)
+
+# ID -> Key
+# items -> Status, Price, Symbol
+# Approved -> move to another thing
+# Rejected/Cancelled -> remove completely we don't care
+
+
+df.plot(kind='bar', stacked=True)
+ 
+# labels for x & y axis
+plt.xlabel('Months')
+plt.ylabel('Temp ranges in Degree Celsius')
+ 
+# title of plot
+plt.title('Monthly Temperatures in a year')
 plt.show()
-
- #ID -> Key
- #items -> Status, Price, Symbol
- #Approved -> move to another thing
- #Rejected/Cancelled -> remove completely we don't care
-
-
-
