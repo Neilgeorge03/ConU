@@ -42,6 +42,8 @@ for circle, label in zip(circles, labels):
         ha="center"
     )
 
+
+plt.savefig("ConU_FrontEnd/src/img/CompanyBubbleChart.png", dpi=300, bbox_inches='tight')
 plt.show()
 
 # ID -> Key

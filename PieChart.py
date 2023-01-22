@@ -16,50 +16,32 @@ df_500_1500 = dataSet[(dataSet["# Laid Off"] > 500) & (dataSet["# Laid Off"] < 1
 less = dataSet[(dataSet["# Laid Off"] < 500)]
 
 others_sum = int(others["# Laid Off"].sum())
+less_sum = int(less["# Laid Off"].sum())
 
 top50 = top50.append({"Company": "Others", "# Laid Off": others_sum}, ignore_index=True)
+df_500_1500 = df_500_1500.append({"Company": "Others", "# Laid Off": less_sum}, ignore_index=True)
 top50.sort_values(by="# Laid Off", ascending=True, inplace=True)
+df_500_1500.sort_values(by="# Laid Off", ascending=True, inplace=True)
 
-# df = df.append({'A': i}, ignore_index=True)
-# print(top50)
-
-# Data to plot
-# labels = top50["Company"]
-# sizes = top50["# Laid Off"]
 colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'red', 'green', 'blue', 'orange']
 
 # Plot
 plt.rcParams['font.size'] = 7.0
 
-plt.figure(0)
-plt.pie(others["# Laid Off"], colors=colors,
-autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
 
 plt.axis('equal')
 
 
-plt.figure(1)
+plt.figure(0)
 plt.pie(top50["# Laid Off"], labels=top50["Company"], colors=colors,
 autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
-
-
-plt.figure(2)
+plt.savefig("ConU_FrontEnd/src/img/Companies with more than 1500 layoffs.png", dpi=300, bbox_inches='tight')
+plt.figure(1)
 plt.pie(df_500_1500["# Laid Off"], labels=df_500_1500["Company"], colors=colors,
 autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
+plt.savefig("ConU_FrontEnd/src/img/Companies with 500 to 1500 layoffs.png", dpi=300, bbox_inches='tight')
 
-
-plt.figure(3)
+plt.figure(2)
 plt.pie(less["# Laid Off"], colors=colors,
 autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
-
-
-
-plt.show()
-
-
-# fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 6))
-# for ax, col in zip(axes.flat, df.columns):
-#     ax.pie(df[col], labels=df.index, autopct=my_autopct)
-#     ax.set(ylabel='', title=col, aspect='equal')
-# fig.tight_layout()
-
+plt.savefig("ConU_FrontEnd/src/img/Companies with less than 500 layoffs.png", dpi=300, bbox_inches='tight')
