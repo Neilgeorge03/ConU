@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import circlify
 
-df = pd.read_json("Layoffsfyi_Tracker_layoffsfyitracker.2023-1-21.json").loc[:, ["Company", "# Laid Off"]]  
+df = pd.read_json("DataSet.json").loc[:, ["Company", "# Laid Off"]]  
 df = df.groupby("Company", as_index=False).sum()
 df.sort_values(by="# Laid Off", ascending=False, inplace=True)
 
@@ -30,23 +30,22 @@ lim = max(
 plt.xlim(-lim, lim)
 plt.ylim(-lim, lim)
 
+labels = top_50["Company"]
 
-data = pd.read_json("/Users/neiljoegeorge/Documents/ConU/Layoffsfyi_Tracker_layoffsfyitracker.2023-1-21.json")    
+for circle, label in zip(circles, labels):
+    x, y, r = circle
+    ax.add_patch(plt.Circle((x,y), r, alpha=0.2, linewidth=2, fill=False))
+    plt.annotate(
+        label,
+        (x,y),
+        va="center",
+        ha="center"
+    )
 
-print(data)
+plt.show()
 
 # ID -> Key
 # items -> Status, Price, Symbol
 # Approved -> move to another thing
 # Rejected/Cancelled -> remove completely we don't care
 
-
-df.plot(kind='bar', stacked=True)
- 
-# labels for x & y axis
-plt.xlabel('Months')
-plt.ylabel('Temp ranges in Degree Celsius')
- 
-# title of plot
-plt.title('Monthly Temperatures in a year')
-plt.show()
