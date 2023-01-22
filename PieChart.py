@@ -3,18 +3,22 @@ import matplotlib.pyplot as plt
 
 
 def my_autopct(pct):
-    return ('%.2f' % pct) if pct > 3 else ''
+    return ('%.2f' % pct) if pct > 1.5 else ''
 
 def my_label(pct):
     print(pct)
 
-dataSet = pd.read_json("DataSet.json").loc[:, ["Company", "# Laid Off"]].[].dropna()
-top50 = dataSet[dataSet["# Laid Off"] > 1500].loc[:,["Company", "# Laid Off"]]
-others = dataSet[dataSet["# Laid Off"] < 1500].loc[:,["Company", "# Laid Off"]]
+dataSet = pd.read_json("DataSet.json").loc[:, ["Company", "# Laid Off"]].dropna().groupby("Company", as_index=False).sum()
+top50 = dataSet[dataSet["# Laid Off"] > 1500]
+others = dataSet[dataSet["# Laid Off"] < 1500]
+
+df_500_1500 = dataSet[(dataSet["# Laid Off"] > 500) & (dataSet["# Laid Off"] < 1500)]
+less = dataSet[(dataSet["# Laid Off"] < 500)]
 
 others_sum = int(others["# Laid Off"].sum())
 
 top50 = top50.append({"Company": "Others", "# Laid Off": others_sum}, ignore_index=True)
+top50.sort_values(by="# Laid Off", ascending=True, inplace=True)
 
 # df = df.append({'A': i}, ignore_index=True)
 # print(top50)
@@ -27,10 +31,29 @@ colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'red', 'green', '
 # Plot
 plt.rcParams['font.size'] = 7.0
 
-plt.pie(top50["# Laid Off"], labels=top50["Company"], colors=colors,
+plt.figure(0)
+plt.pie(others["# Laid Off"], colors=colors,
 autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
 
 plt.axis('equal')
+
+
+plt.figure(1)
+plt.pie(top50["# Laid Off"], labels=top50["Company"], colors=colors,
+autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
+
+
+plt.figure(2)
+plt.pie(df_500_1500["# Laid Off"], labels=df_500_1500["Company"], colors=colors,
+autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
+
+
+plt.figure(3)
+plt.pie(less["# Laid Off"], colors=colors,
+autopct=my_autopct, startangle=140, rotatelabels=True, labeldistance=1.1, pctdistance=0.8, textprops={'fontsize': 7})
+
+
+
 plt.show()
 
 
